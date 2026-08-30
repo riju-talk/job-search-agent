@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Executive Career Agent"
+description = "A private, local-first desktop workspace for a senior banking executive to review high-signal roles, understand fit, and keep an application search organized without scraping or auto-submitting."
+version = "1.0.0"
+id = "artifacts/executive-career-agent"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21942
+
+[services.development]
+run = "pnpm --filter @workspace/executive-career-agent run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/executive-career-agent", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/executive-career-agent/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21942"
+BASE_PATH = "/"
